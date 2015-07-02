@@ -1,7 +1,6 @@
 package tests;
 
 import com.bonitasoft.libJavaProject.LibJava;
-import com.google.gson.Gson;
 
 /**
  * Created by Fabrice.R on 22/02/2015.

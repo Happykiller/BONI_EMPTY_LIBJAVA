@@ -1,11 +1,7 @@
 package com.bonitasoft.libJavaProject;
 
-import org.bonitasoft.engine.api.APIAccessor;
-import org.bonitasoft.engine.bpm.process.ProcessInstance;
-import org.bonitasoft.engine.bpm.process.ProcessInstanceCriterion;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Logger;
 
 /**
