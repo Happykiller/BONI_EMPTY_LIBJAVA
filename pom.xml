@@ -29,19 +29,25 @@
         <dependency>
             <groupId>org.bonitasoft.engine</groupId>
             <artifactId>bonita-server</artifactId>
-            <version>6.5.3</version>
+            <version>7.1.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.bonitasoft.engine</groupId>
             <artifactId>bonita-client</artifactId>
-            <version>6.5.3</version>
+            <version>7.1.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.bonitasoft.engine</groupId>
             <artifactId>bonita-common</artifactId>
-            <version>6.5.3</version>
+            <version>7.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
         </dependency>
 
     </dependencies>

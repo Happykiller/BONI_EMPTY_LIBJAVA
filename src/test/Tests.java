@@ -1,5 +1,3 @@
-package tests;
-
 import com.bonitasoft.libJavaProject.LibJava;
 
 /**
