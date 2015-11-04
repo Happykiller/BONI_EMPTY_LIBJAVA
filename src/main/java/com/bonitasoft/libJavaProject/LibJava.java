@@ -1,5 +1,8 @@
 package com.bonitasoft.libJavaProject;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Logger;
@@ -9,23 +12,34 @@ import java.util.logging.Logger;
  */
 public class LibJava {
 
-    private static final Logger uilLogger = Logger.getLogger("com.bonitasoft.groovy");
+    private static final Logger logger = Logger.getLogger("com.bonitasoft.LibJava");
 	
-	public static void trace(String message){
+	public static void message(String message){
         try {
-            uilLogger.info(message);
+            logger.info(message);
             System.out.println(message);
         }catch (Exception ex) {
-            uilLogger.severe("trace - Error : " + ex);
+            logger.severe("message - Error : " + ex);
         }
     }
 
+    public static void traceExeption(Throwable aThrowable){
+        String methodeName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        message("Error ("+methodeName+") : "+ getStackTrace(aThrowable));
+    }
+
+    public static String getStackTrace(Throwable aThrowable) {
+        Writer result = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(result);
+        aThrowable.printStackTrace(printWriter);
+        return result.toString();
+    }
+
     public static String sayHelloMessage(){
-        String retour = "HelloWorld";
         try {
-            return retour;
+            return "HelloWorld";
         }catch (Exception e) {
-            trace("sayHelloMessage - Error : "+ e.getMessage());
+            traceExeption(e);
             return null;
         }
     }
@@ -37,8 +51,8 @@ public class LibJava {
             java.sql.Date dateReturn = new java.sql.Date(currentDate.getTime());
             SimpleDateFormat formater = new SimpleDateFormat("yyyyMMddHHmmss");
             return formater.format(dateReturn);
-        }catch (Exception ex) {
-            trace("getDateTimeStr - Error : " + ex);
+        }catch (Exception e) {
+            traceExeption(e);
             return null;
         }
     }
