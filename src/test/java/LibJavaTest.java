@@ -1,20 +1,29 @@
 import com.bonitasoft.libJavaProject.LibJava;
 
+import org.bonitasoft.engine.api.ApiAccessType;
+import org.bonitasoft.engine.api.IdentityAPI;
+import org.bonitasoft.engine.api.LoginAPI;
+import org.bonitasoft.engine.api.TenantAPIAccessor;
+import org.bonitasoft.engine.api.impl.transaction.platform.Logout;
+import org.bonitasoft.engine.session.APISession;
+import org.bonitasoft.engine.util.APITypeManager;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Before; 
+import org.junit.Before;
 import org.junit.After;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
-/** 
-* LibJava Tester. 
-* 
-* @author <Authors name> 
-* @since <pre>nov. 4, 2015</pre> 
-* @version 1.0 
-*/ 
+/**
+ * LibJava Tester.
+ *
+ * @author <Authors name>
+ * @since <pre>nov. 4, 2015</pre>
+ * @version 1.0
+ */
 public class LibJavaTest {
     @Before
     public void before() throws Exception {
@@ -25,10 +34,10 @@ public class LibJavaTest {
     }
 
     /**
-    *
-    * Method: sayHelloMessage()
-    *
-    */
+     *
+     * Method: sayHelloMessage()
+     *
+     */
     @Test
     public void testSayHelloMessage() throws Exception {
         String receive;
@@ -38,10 +47,10 @@ public class LibJavaTest {
     }
 
     /**
-    *
-    * Method: getDateTimeStr()
-    *
-    */
+     *
+     * Method: getDateTimeStr()
+     *
+     */
     @Test
     public void testGetDateTimeStr() throws Exception {
         String receive;
@@ -55,5 +64,34 @@ public class LibJavaTest {
         receive = LibJava.getDateTimeStr();
 
         Assert.assertEquals(receive,waiting);
+    }
+
+    /**
+     *
+     * Method: testGetUserMail()
+     *
+     */
+    @Test
+    public void testGetUserMail() throws Exception {
+        // Setup access type (HTTP on local host)
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("server.url", "http://localhost:8080");
+        parameters.put("application.name", "bonita");
+        APITypeManager.setAPITypeAndParams(ApiAccessType.HTTP, parameters);
+
+        // Authenticate and obtain API session
+        LoginAPI loginAPI = TenantAPIAccessor.getLoginAPI();
+        APISession session = loginAPI.login("install", "install");
+
+        // Operation
+        IdentityAPI myIdentityAPI = TenantAPIAccessor.getIdentityAPI(session);
+
+        String receive;
+        String waiting = "walter.bates@acme.com";
+
+        Long id = myIdentityAPI.getUserByUserName("walter.bates").getId();
+        receive = LibJava.getUserMail(myIdentityAPI, id);
+
+        Assert.assertEquals(waiting,receive);
     }
 } 
