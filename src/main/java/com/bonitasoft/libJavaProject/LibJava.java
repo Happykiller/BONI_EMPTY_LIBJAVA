@@ -1,5 +1,8 @@
 package com.bonitasoft.libJavaProject;
 
+import org.bonitasoft.engine.api.APIAccessor;
+import org.bonitasoft.engine.bpm.process.ProcessInstance;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -13,8 +16,12 @@ import java.util.logging.Logger;
 public class LibJava {
 
     private static final Logger logger = Logger.getLogger("com.bonitasoft.LibJava");
-	
-	public static void message(String message){
+
+    /**
+     *
+     * @param message A message
+     */
+    private static void message(String message){
         try {
             logger.info(message);
             System.out.println(message);
@@ -23,18 +30,31 @@ public class LibJava {
         }
     }
 
-    public static void traceExeption(Throwable aThrowable){
+    /**
+     *
+     * @param aThrowable An exception
+     */
+    private static void traceExeption(Throwable aThrowable){
         String methodeName = Thread.currentThread().getStackTrace()[2].getMethodName();
         message("Error ("+methodeName+") : "+ getStackTrace(aThrowable));
     }
 
-    public static String getStackTrace(Throwable aThrowable) {
+    /**
+     *
+     * @param aThrowable An exception
+     * @return A displayable trace
+     */
+    private static String getStackTrace(Throwable aThrowable) {
         Writer result = new StringWriter();
         PrintWriter printWriter = new PrintWriter(result);
         aThrowable.printStackTrace(printWriter);
         return result.toString();
     }
 
+    /**
+     *
+     * @return A message
+     */
     public static String sayHelloMessage(){
         try {
             return "HelloWorld";
@@ -43,7 +63,11 @@ public class LibJava {
             return null;
         }
     }
-	
+
+    /**
+     *
+     * @return La date et heure au format yyyyMMddHHmmss
+     */
     public static String getDateTimeStr(){
         try {
             Calendar calendar = Calendar.getInstance();
@@ -51,6 +75,90 @@ public class LibJava {
             java.sql.Date dateReturn = new java.sql.Date(currentDate.getTime());
             SimpleDateFormat formater = new SimpleDateFormat("yyyyMMddHHmmss");
             return formater.format(dateReturn);
+        }catch (Exception e) {
+            traceExeption(e);
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param apiAccessor la variable est fournie par bonita (liste de droite dans l'editeur d'expression)
+     * @param caseId la variable est fournie par bonita rootProcessInstanceId (liste de droite dans l'editeur d'expression)
+     * @return l'id de l'initiateur
+     */
+    public static Long getUserIdInitiator(APIAccessor apiAccessor, Long caseId){
+        try {
+            Long userId;
+
+            ProcessInstance myProcessInstance = apiAccessor.getProcessAPI().getProcessInstance(caseId);
+
+            userId = myProcessInstance.getStartedBy();
+
+            return userId;
+        }catch (Exception e) {
+            traceExeption(e);
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param apiAccessor la variable est fournie par bonita (liste de droite dans l'editeur d'expression)
+     * @param caseId la variable est fournie par bonita rootProcessInstanceId (liste de droite dans l'editeur d'expression)
+     * @return le prénom
+     */
+    public static String getUserFirstNameInitiator(APIAccessor apiAccessor, Long caseId){
+        try {
+            Long userId;
+
+            ProcessInstance myProcessInstance = apiAccessor.getProcessAPI().getProcessInstance(caseId);
+
+            userId = myProcessInstance.getStartedBy();
+
+            String firstName = apiAccessor.getIdentityAPI().getUser(userId).getFirstName();
+
+            return firstName;
+        }catch (Exception e) {
+            traceExeption(e);
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param apiAccessor la variable est fournie par bonita (liste de droite dans l'editeur d'expression)
+     * @param caseId la variable est fournie par bonita rootProcessInstanceId (liste de droite dans l'editeur d'expression)
+     * @return le nom
+     */
+    public static String getUserLastNameInitiator(APIAccessor apiAccessor, Long caseId){
+        try {
+            Long userId;
+
+            ProcessInstance myProcessInstance = apiAccessor.getProcessAPI().getProcessInstance(caseId);
+
+            userId = myProcessInstance.getStartedBy();
+
+            String lastName = apiAccessor.getIdentityAPI().getUser(userId).getLastName();
+
+            return lastName;
+        }catch (Exception e) {
+            traceExeption(e);
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param apiAccessor la variable est fournie par bonita (liste de droite dans l'editeur d'expression)
+     * @param userId L'id de l'utilisateur
+     * @return l'email pro de l'utilisateur
+     */
+    public static String getUserMailInitiator(APIAccessor apiAccessor, Long userId){
+        try {
+            String mail = apiAccessor.getIdentityAPI().getUserContactData(userId,true).getEmail();
+
+            return mail;
         }catch (Exception e) {
             traceExeption(e);
             return null;

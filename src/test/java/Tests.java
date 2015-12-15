@@ -5,7 +5,7 @@ import com.bonitasoft.libJavaProject.LibJava;
  */
 public class Tests {
     public static void main(String [ ] args){
-        LibJava.message("===== Mes tests ======");
+        System.out.println("===== Mes tests ======");
         testSayHelloMessage();
     }
 
@@ -13,6 +13,6 @@ public class Tests {
         String strRetour = "";
         String attendu = "HelloWorld";
         strRetour = LibJava.sayHelloMessage();
-        LibJava.message("Test sayHelloMessage : " + strRetour.equals(attendu));
+        System.out.println("Test sayHelloMessage : " + strRetour.equals(attendu));
     }
 }
