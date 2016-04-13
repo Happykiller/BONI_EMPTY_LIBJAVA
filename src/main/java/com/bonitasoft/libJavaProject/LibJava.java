@@ -1,7 +1,7 @@
 package com.bonitasoft.libJavaProject;
 
-import org.bonitasoft.engine.api.APIAccessor;
 import org.bonitasoft.engine.api.IdentityAPI;
+import org.bonitasoft.engine.api.ProcessAPI;
 import org.bonitasoft.engine.bpm.process.ProcessInstance;
 
 import java.io.PrintWriter;
@@ -84,15 +84,15 @@ public class LibJava {
 
     /**
      *
-     * @param apiAccessor la variable est fournie par bonita (liste de droite dans l'editeur d'expression)
+     * @param processAPI la variable est fournie par bonita depuis APIAcessor (liste de droite dans l'editeur d'expression)
      * @param caseId la variable est fournie par bonita rootProcessInstanceId (liste de droite dans l'editeur d'expression)
      * @return l'id de l'initiateur
      */
-    public static Long getUserIdInitiator(APIAccessor apiAccessor, Long caseId){
+    public static Long getUserIdInitiator(ProcessAPI processAPI, Long caseId){
         try {
             Long userId;
 
-            ProcessInstance myProcessInstance = apiAccessor.getProcessAPI().getProcessInstance(caseId);
+            ProcessInstance myProcessInstance = processAPI.getProcessInstance(caseId);
 
             userId = myProcessInstance.getStartedBy();
 
@@ -105,19 +105,20 @@ public class LibJava {
 
     /**
      *
-     * @param apiAccessor la variable est fournie par bonita (liste de droite dans l'editeur d'expression)
+     * @param processAPI la variable est fournie par bonita depuis APIAcessor (liste de droite dans l'editeur d'expression)
+     * @param identityAPI la variable est fournie par bonita depuis APIAcessor (liste de droite dans l'editeur d'expression)
      * @param caseId la variable est fournie par bonita rootProcessInstanceId (liste de droite dans l'editeur d'expression)
      * @return le prénom
      */
-    public static String getUserFirstNameInitiator(APIAccessor apiAccessor, Long caseId){
+    public static String getUserFirstNameInitiator(ProcessAPI processAPI, IdentityAPI identityAPI, Long caseId){
         try {
             Long userId;
 
-            ProcessInstance myProcessInstance = apiAccessor.getProcessAPI().getProcessInstance(caseId);
+            ProcessInstance myProcessInstance = processAPI.getProcessInstance(caseId);
 
             userId = myProcessInstance.getStartedBy();
 
-            String firstName = apiAccessor.getIdentityAPI().getUser(userId).getFirstName();
+            String firstName = identityAPI.getUser(userId).getFirstName();
 
             return firstName;
         }catch (Exception e) {
@@ -128,19 +129,20 @@ public class LibJava {
 
     /**
      *
-     * @param apiAccessor la variable est fournie par bonita (liste de droite dans l'editeur d'expression)
+     * @param processAPI la variable est fournie par bonita depuis APIAcessor (liste de droite dans l'editeur d'expression)
+     * @param identityAPI la variable est fournie par bonita depuis APIAcessor (liste de droite dans l'editeur d'expression)
      * @param caseId la variable est fournie par bonita rootProcessInstanceId (liste de droite dans l'editeur d'expression)
      * @return le nom
      */
-    public static String getUserLastNameInitiator(APIAccessor apiAccessor, Long caseId){
+    public static String getUserLastNameInitiator(ProcessAPI processAPI, IdentityAPI identityAPI, Long caseId){
         try {
             Long userId;
 
-            ProcessInstance myProcessInstance = apiAccessor.getProcessAPI().getProcessInstance(caseId);
+            ProcessInstance myProcessInstance = processAPI.getProcessInstance(caseId);
 
             userId = myProcessInstance.getStartedBy();
 
-            String lastName = apiAccessor.getIdentityAPI().getUser(userId).getLastName();
+            String lastName = identityAPI.getUser(userId).getLastName();
 
             return lastName;
         }catch (Exception e) {
@@ -151,7 +153,7 @@ public class LibJava {
 
     /**
      *
-     * @param identityAPI IdentityAPI
+     * @param identityAPI la variable est fournie par bonita depuis APIAcessor (liste de droite dans l'editeur d'expression)
      * @param userId L'id de l'utilisateur
      * @return l'email pro de l'utilisateur
      */

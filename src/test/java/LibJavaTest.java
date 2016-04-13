@@ -1,9 +1,6 @@
 import com.bonitasoft.libJavaProject.LibJava;
 
-import org.bonitasoft.engine.api.ApiAccessType;
-import org.bonitasoft.engine.api.IdentityAPI;
-import org.bonitasoft.engine.api.LoginAPI;
-import org.bonitasoft.engine.api.TenantAPIAccessor;
+import org.bonitasoft.engine.api.*;
 import org.bonitasoft.engine.api.impl.transaction.platform.Logout;
 import org.bonitasoft.engine.session.APISession;
 import org.bonitasoft.engine.util.APITypeManager;
@@ -91,6 +88,33 @@ public class LibJavaTest {
 
         Long id = myIdentityAPI.getUserByUserName("walter.bates").getId();
         receive = LibJava.getUserMail(myIdentityAPI, id);
+
+        Assert.assertEquals(waiting,receive);
+    }
+
+    /**
+     *
+     * Method: testGetUserMail()
+     *
+     */
+    @Test
+    public void testGetUserIdInitiator() throws Exception {
+        // Setup access type (HTTP on local host)
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("server.url", "http://localhost:8080");
+        parameters.put("application.name", "bonita");
+        APITypeManager.setAPITypeAndParams(ApiAccessType.HTTP, parameters);
+
+        // Authenticate and obtain API session
+        LoginAPI loginAPI = TenantAPIAccessor.getLoginAPI();
+        APISession session = loginAPI.login("install", "install");
+
+        Long receive;
+        Long waiting = 4l;
+
+        Long caseId = 4001l;
+
+        receive = LibJava.getUserIdInitiator(TenantAPIAccessor.getProcessAPI(session), caseId);
 
         Assert.assertEquals(waiting,receive);
     }
