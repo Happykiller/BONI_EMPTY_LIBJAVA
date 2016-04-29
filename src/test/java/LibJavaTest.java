@@ -2,12 +2,15 @@ import com.bonitasoft.libJavaProject.LibJava;
 
 import org.bonitasoft.engine.api.*;
 import org.bonitasoft.engine.api.impl.transaction.platform.Logout;
+import org.bonitasoft.engine.identity.ContactData;
+import org.bonitasoft.engine.identity.impl.ContactDataBuilder;
 import org.bonitasoft.engine.session.APISession;
 import org.bonitasoft.engine.util.APITypeManager;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
+import org.mockito.Mockito;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -88,6 +91,22 @@ public class LibJavaTest {
 
         Long id = myIdentityAPI.getUserByUserName("walter.bates").getId();
         receive = LibJava.getUserMail(myIdentityAPI, id);
+
+        Assert.assertEquals(waiting,receive);
+    }
+
+    @Test
+    public void testGetUserMail2() throws Exception {
+        APIAccessor apiAccessor = Mockito.mock(APIAccessor.class);
+        IdentityAPI identityApi = Mockito.mock(IdentityAPI.class);
+        Mockito.when(apiAccessor.getIdentityAPI()).thenReturn(identityApi);
+        ContactData contactData = new ContactDataBuilder().setEmail("walter.bates@acme.com").done();
+        Mockito.when(identityApi.getUserContactData(42l,false)).thenReturn(contactData);
+
+        String receive;
+        String waiting = "walter.bates@acme.com";
+
+        receive = LibJava.getUserMail(apiAccessor, 42l);
 
         Assert.assertEquals(waiting,receive);
     }

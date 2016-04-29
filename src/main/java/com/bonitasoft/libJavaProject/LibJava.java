@@ -1,5 +1,6 @@
 package com.bonitasoft.libJavaProject;
 
+import org.bonitasoft.engine.api.APIAccessor;
 import org.bonitasoft.engine.api.IdentityAPI;
 import org.bonitasoft.engine.api.ProcessAPI;
 import org.bonitasoft.engine.bpm.process.ProcessInstance;
@@ -160,6 +161,23 @@ public class LibJava {
     public static String getUserMail(IdentityAPI identityAPI, Long userId){
         try {
             String mail = identityAPI.getUserContactData(userId,false).getEmail();
+
+            return mail;
+        }catch (Exception e) {
+            traceExeption(e);
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param aPIAccessor la variable est fournie par bonita (liste de droite dans l'editeur d'expression)
+     * @param userId L'id de l'utilisateur
+     * @return l'email pro de l'utilisateur
+     */
+    public static String getUserMail(APIAccessor aPIAccessor, Long userId){
+        try {
+            String mail = aPIAccessor.getIdentityAPI().getUserContactData(userId,false).getEmail();
 
             return mail;
         }catch (Exception e) {
