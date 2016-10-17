@@ -1,6 +1,7 @@
 import org.bonita.lib.projet.LibJava;
 
-import org.bonitasoft.engine.api.*;
+import org.bonitasoft.engine.api.APIAccessor;
+import org.bonitasoft.engine.api.IdentityAPI;
 import org.bonitasoft.engine.identity.ContactData;
 import org.bonitasoft.engine.identity.User;
 import org.bonitasoft.engine.identity.UserSearchDescriptor;
@@ -8,8 +9,6 @@ import org.bonitasoft.engine.identity.impl.ContactDataBuilder;
 import org.bonitasoft.engine.search.SearchOptions;
 import org.bonitasoft.engine.search.SearchOptionsBuilder;
 import org.bonitasoft.engine.search.SearchResult;
-import org.bonitasoft.engine.session.APISession;
-import org.bonitasoft.engine.util.APITypeManager;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before;
