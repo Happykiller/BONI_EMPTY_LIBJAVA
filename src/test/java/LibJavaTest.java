@@ -1,9 +1,13 @@
-import com.bonitasoft.libJavaProject.LibJava;
+import org.bonita.lib.projet.LibJava;
 
 import org.bonitasoft.engine.api.*;
-import org.bonitasoft.engine.api.impl.transaction.platform.Logout;
 import org.bonitasoft.engine.identity.ContactData;
+import org.bonitasoft.engine.identity.User;
+import org.bonitasoft.engine.identity.UserSearchDescriptor;
 import org.bonitasoft.engine.identity.impl.ContactDataBuilder;
+import org.bonitasoft.engine.search.SearchOptions;
+import org.bonitasoft.engine.search.SearchOptionsBuilder;
+import org.bonitasoft.engine.search.SearchResult;
 import org.bonitasoft.engine.session.APISession;
 import org.bonitasoft.engine.util.APITypeManager;
 import org.junit.Assert;
@@ -13,9 +17,7 @@ import org.junit.After;
 import org.mockito.Mockito;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * LibJava Tester.
@@ -66,37 +68,8 @@ public class LibJavaTest {
         Assert.assertEquals(receive,waiting);
     }
 
-    /**
-     *
-     * Method: testGetUserMail()
-     *
-     */
     @Test
     public void testGetUserMail() throws Exception {
-        // Setup access type (HTTP on local host)
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("server.url", "http://localhost:8080");
-        parameters.put("application.name", "bonita");
-        APITypeManager.setAPITypeAndParams(ApiAccessType.HTTP, parameters);
-
-        // Authenticate and obtain API session
-        LoginAPI loginAPI = TenantAPIAccessor.getLoginAPI();
-        APISession session = loginAPI.login("install", "install");
-
-        // Operation
-        IdentityAPI myIdentityAPI = TenantAPIAccessor.getIdentityAPI(session);
-
-        String receive;
-        String waiting = "walter.bates@acme.com";
-
-        Long id = myIdentityAPI.getUserByUserName("walter.bates").getId();
-        receive = LibJava.getUserMail(myIdentityAPI, id);
-
-        Assert.assertEquals(waiting,receive);
-    }
-
-    @Test
-    public void testGetUserMail2() throws Exception {
         APIAccessor apiAccessor = Mockito.mock(APIAccessor.class);
         IdentityAPI identityApi = Mockito.mock(IdentityAPI.class);
         Mockito.when(apiAccessor.getIdentityAPI()).thenReturn(identityApi);
@@ -111,30 +84,43 @@ public class LibJavaTest {
         Assert.assertEquals(waiting,receive);
     }
 
-    /**
-     *
-     * Method: testGetUserMail()
-     *
-     */
     @Test
-    public void testGetUserIdInitiator() throws Exception {
-        // Setup access type (HTTP on local host)
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("server.url", "http://localhost:8080");
-        parameters.put("application.name", "bonita");
-        APITypeManager.setAPITypeAndParams(ApiAccessType.HTTP, parameters);
+    public void testGetUsersByMail() throws Exception {
+        //MOCK
+        IdentityAPI identityApi = Mockito.mock(IdentityAPI.class);
+        SearchOptions so = new SearchOptionsBuilder(0, 10000).filter(UserSearchDescriptor.ENABLED, true).done();
+        SearchResult<User> liste = new SearchResult<User>() {
+            public long getCount() {
+                return 1;
+            }
 
-        // Authenticate and obtain API session
-        LoginAPI loginAPI = TenantAPIAccessor.getLoginAPI();
-        APISession session = loginAPI.login("install", "install");
+            public List<User> getResult() {
+                List<User> users = new ArrayList<User>();
+                users.add(createUser("walter.bates", 4l));
+                return users;
+            }
+        };
+        Mockito.when(identityApi.searchUsers(so)).thenReturn(liste);
 
-        Long receive;
-        Long waiting = 4l;
+        ContactData contactData = new ContactDataBuilder().setEmail("walter.bates@acme.com").done();
+        Mockito.when(identityApi.getUserContactData(4l,false)).thenReturn(contactData);
 
-        Long caseId = 4001l;
+        //TEST
+        List<Long> receive;
+        List<Long> waiting = new ArrayList<Long>();
+        waiting.add(4l);
 
-        receive = LibJava.getUserIdInitiator(TenantAPIAccessor.getProcessAPI(session), caseId);
+        String mail = "walter.bates@acme.com";
+
+        receive = LibJava.getUsersByMail(identityApi, mail);
 
         Assert.assertEquals(waiting,receive);
+    }
+
+    private User createUser(String name, Long id){
+        User myUser = Mockito.mock(User.class);
+        Mockito.when(myUser.getId()).thenReturn(id);
+        Mockito.when(myUser.getUserName()).thenReturn(name);
+        return myUser;
     }
 }

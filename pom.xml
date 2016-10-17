@@ -4,44 +4,36 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.bonitasoft</groupId>
-    <artifactId>libJavaProject</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>org.bonita.lib.projet</groupId>
+    <artifactId>libJavaProjet</artifactId>
+    <version>1.0</version>
 
     <dependencies>
-	
-		<dependency>
-            <groupId>bdm-dao</groupId>
-            <artifactId>com.company.model</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/repo/bdm-dao.jar</systemPath>
-        </dependency>
 
         <dependency>
-            <groupId>bdm-mobel</groupId>
-            <artifactId>com.company.model</artifactId>
+            <groupId>bdm</groupId>
+            <artifactId>org.bonita.continuum.model</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/repo/bdm-model.jar</systemPath>
+            <systemPath>${project.basedir}/repo/bdm-client-pojo.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>org.bonitasoft.engine</groupId>
             <artifactId>bonita-server</artifactId>
-            <version>7.1.2</version>
+            <version>7.3.3</version>
         </dependency>
 
         <dependency>
             <groupId>org.bonitasoft.engine</groupId>
             <artifactId>bonita-client</artifactId>
-            <version>7.1.2</version>
+            <version>7.3.3</version>
         </dependency>
 
         <dependency>
             <groupId>org.bonitasoft.engine</groupId>
             <artifactId>bonita-common</artifactId>
-            <version>7.1.2</version>
+            <version>7.3.3</version>
         </dependency>
 
         <dependency>
