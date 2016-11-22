@@ -40,6 +40,23 @@ public class LibJavaTest {
      *
      */
     @Test
+    public void testGetProperty() throws Exception {
+        String receive;
+        String waiting = "true";
+
+        Properties props = System.getProperties();
+        props.setProperty("properties.path", "myProperties.properties");
+
+        receive = LibJava.getProperty("debug");
+        Assert.assertEquals(receive,waiting);
+    }
+
+    /**
+     *
+     * Method: sayHelloMessage()
+     *
+     */
+    @Test
     public void testSayHelloMessage() throws Exception {
         String receive;
         String waiting = "HelloWorld";

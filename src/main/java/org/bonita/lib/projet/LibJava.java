@@ -9,6 +9,7 @@ import org.bonitasoft.engine.identity.UserSearchDescriptor;
 import org.bonitasoft.engine.search.SearchOptions;
 import org.bonitasoft.engine.search.SearchOptionsBuilder;
 
+import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -16,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 /**
@@ -57,6 +59,48 @@ public class LibJava {
         PrintWriter printWriter = new PrintWriter(result);
         aThrowable.printStackTrace(printWriter);
         return result.toString();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static Properties loadProperties() {
+        try {
+            //-Dproperties.path=C:\DATAS\myProperties.properties
+            //content file exemple :
+            //debug=true
+            String properiesPath = System.getProperty("properties.path");
+            Properties properties = new Properties();
+            FileInputStream input = new FileInputStream(properiesPath);
+            try{
+                properties.load(input);
+                return properties;
+            } finally{
+                input.close();
+            }
+        } catch (Exception e) {
+            traceExeption(e);
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public static String getProperty(String name){
+        try {
+            Properties myProperties = loadProperties();
+
+            String prop = myProperties.getProperty(name);
+
+            return prop;
+        }catch (Exception e) {
+            traceExeption(e);
+            return null;
+        }
     }
 
     /**
