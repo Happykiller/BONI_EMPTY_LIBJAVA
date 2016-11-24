@@ -73,6 +73,7 @@ public class LibJava {
             String properiesPath = System.getProperty("properties.path");
             Properties properties = new Properties();
             FileInputStream input = new FileInputStream(properiesPath);
+
             try{
                 properties.load(input);
                 return properties;

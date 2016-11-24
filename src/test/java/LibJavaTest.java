@@ -44,8 +44,11 @@ public class LibJavaTest {
         String receive;
         String waiting = "true";
 
-        Properties props = System.getProperties();
-        props.setProperty("properties.path", "myProperties.properties");
+        //-Dproperties.path=C:\DATAS\myProperties.properties
+        //debug=true
+
+        //Properties props = System.getProperties();
+        //props.setProperty("properties.path", "myProperties.properties");
 
         receive = LibJava.getProperty("debug");
         Assert.assertEquals(receive,waiting);
