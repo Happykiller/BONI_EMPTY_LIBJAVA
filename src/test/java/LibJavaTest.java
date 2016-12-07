@@ -1,3 +1,4 @@
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.bonita.lib.projet.LibJava;
 
 import org.bonitasoft.engine.api.APIAccessor;
@@ -47,8 +48,8 @@ public class LibJavaTest {
         //-Dproperties.path=C:\DATAS\myProperties.properties
         //debug=true
 
-        //Properties props = System.getProperties();
-        //props.setProperty("properties.path", "myProperties.properties");
+        Properties props = System.getProperties();
+        props.setProperty("properties.path", "myProperties.properties");
 
         receive = LibJava.getProperty("debug");
         Assert.assertEquals(receive,waiting);
@@ -85,6 +86,14 @@ public class LibJavaTest {
         receive = LibJava.getDateTimeStr();
 
         Assert.assertEquals(receive,waiting);
+    }
+
+    @Test
+    public void testCompareTwoObject() throws Exception {
+        User per1 = createUser("walter.bates", 4l);
+        User per2 = createUser("walter.bates", 4l);
+
+        Assert.assertTrue(EqualsBuilder.reflectionEquals(per1,per2));
     }
 
     @Test
