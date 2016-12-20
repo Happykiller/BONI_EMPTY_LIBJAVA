@@ -10,12 +10,26 @@
 
     <dependencies>
 
+        <!-- Deprecated from 7.3.x
         <dependency>
             <groupId>bdm</groupId>
             <artifactId>org.bonita.continuum.model</artifactId>
             <version>1.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/repo/bdm-client-pojo.jar</systemPath>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>com.happykiller.model</groupId>
+            <artifactId>bdm-client</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.happykiller.model</groupId>
+            <artifactId>bdm-dao</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>
