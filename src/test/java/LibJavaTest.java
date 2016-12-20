@@ -1,3 +1,4 @@
+import com.happykiller.model.Personne;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.bonita.lib.projet.LibJava;
 
@@ -150,5 +151,20 @@ public class LibJavaTest {
         Mockito.when(myUser.getId()).thenReturn(id);
         Mockito.when(myUser.getUserName()).thenReturn(name);
         return myUser;
+    }
+
+
+    @Test
+    public void testGetAllNameFromBDM() throws Exception {
+        Personne moi = new Personne();
+        moi.setNom("Rosito");
+        moi.setPrenom("Fabrice");
+
+        String receive;
+        String waiting = "Rosito Fabrice";
+
+        receive = LibJava.getAllNameFromBDM(moi);
+
+        Assert.assertEquals(waiting,receive);
     }
 }

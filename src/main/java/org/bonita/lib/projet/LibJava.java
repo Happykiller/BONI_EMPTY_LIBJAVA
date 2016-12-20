@@ -1,5 +1,6 @@
 package org.bonita.lib.projet;
 
+import com.happykiller.model.Personne;
 import org.bonitasoft.engine.api.APIAccessor;
 import org.bonitasoft.engine.api.IdentityAPI;
 import org.bonitasoft.engine.api.ProcessAPI;
@@ -259,6 +260,22 @@ public class LibJava {
             }
 
             return response;
+        }catch (Exception e) {
+            traceExeption(e);
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param persone
+     * @return
+     */
+    public static String getAllNameFromBDM(Personne persone){
+        try {
+            String allName = persone.getNom() + " " + persone.getPrenom();
+
+            return allName;
         }catch (Exception e) {
             traceExeption(e);
             return null;
