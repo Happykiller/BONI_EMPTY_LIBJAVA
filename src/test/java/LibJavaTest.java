@@ -1,5 +1,6 @@
 import com.happykiller.model.Personne;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.assertj.core.api.Assertions;
 import org.bonita.lib.projet.LibJava;
 
 import org.bonitasoft.engine.api.APIAccessor;
@@ -166,5 +167,30 @@ public class LibJavaTest {
         receive = LibJava.getAllNameFromBDM(moi);
 
         Assert.assertEquals(waiting,receive);
+    }
+
+    @Test
+    public void testCompareComplexeObjet() throws Exception {
+        class Address {
+            public int number = 1;
+        }
+
+        class Person {
+            public String name;
+            public double height;
+            public Address adress;
+
+            Person(String name, Double height){
+                this.name = name;
+                this.height = height;
+            }
+        }
+
+        Person jack = new Person("Jack", 1.80);
+
+        Person jackClone = new Person("Jack", 1.80);
+
+        // jack and jackClone are equals when doing a recursive field by field comparison
+        Assertions.assertThat(jack).isEqualToComparingFieldByFieldRecursively(jackClone);
     }
 }
